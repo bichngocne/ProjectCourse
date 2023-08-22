@@ -1,36 +1,31 @@
-const jwt = require('jsonwebtoken');
-
-module.exports = function checkToken(req, res, next) {
-    //Bypass login,register
-    //debugger
+module.exports = async function checkToken(req, res, next) {
     if (
         req.url.toLowerCase().trim() == '/user'.toLowerCase().trim() ||
-        req.url.toLowerCase().trim() == '/home'.toLowerCase().trim()
+        req.url.toLowerCase().trim() == '/home'.toLowerCase().trim() ||
+        req.url.toLowerCase().trim() == '/user/logout'.toLowerCase().trim() ||
+        req.url.toLowerCase().trim() == '/cource'.toLowerCase().trim()
     ) {
         next();
         return;
     }
-    //other requests
-    //get and validate token
-    const token = req.headers?.authorization?.split(' ')[1];
-    //debugger
+    
+    // Get and validate token
+    const token = await req.headers?.authorization?.split(' ')[1];
+    console.log(token);
     try {
-        const jwtObject = jwt.verify(token, process.env.SECRET);
+        const jwtObject = await jwt.verify(token, process.env.SECRET);
         const isExpired = Date.now() >= jwtObject.exp * 1000;
+        
         if (isExpired) {
-            res.status(400).json({
-                message: 'Token is expired',
-            });
-            res.end();
+            res.redirect('/home');
+            console.log('vao home1');
         } else {
-            next();
-            return;
+            next(); // Chỉ gọi next() khi token hợp lệ
+            console.log('vao admin');
         }
-        // debugger
     } catch (errors) {
-        res.status(400).json({
-            message: errors.message,
-        });
+        res.redirect('/home');
+        console.log('vao home2');
+
     }
-    //debugger
 };
