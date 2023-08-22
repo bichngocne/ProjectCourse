@@ -3,10 +3,11 @@ const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const salt = bcrypt.genSaltSync(10);
 const { User } = require('../models/User.js');
-
+const checkToken = require('../middlewares/authentication.js');
 //event
 const { EventEmitter } = require('events');
 const emitter = new EventEmitter();
+const jwt = require('jsonwebtoken')
 // Bắt sự kiện 'register'
 emitter.on('register', (user) => {
     console.log(`Đăng ký thành công cho tài khoản: ${user.email}`);
@@ -70,8 +71,21 @@ async function store(req, res, next) {
             if (passwordMatches) {
                 // Đúng email và mật khẩu
                 emitter.emit('login', existUser);
+                //create token
+                // Tạo token
+                const token = jwt.sign(
+                    { user_id: existUser._id, email },
+                    process.env.TOKEN_KEY,
+                    {
+                        expiresIn: "24h",
+                    }
+                );
+
+                // Lưu token vào cookies
+                res.cookie('token', token, { httpOnly: true, expires: new Date(Date.now() + 24 * 60 * 60 * 1000) });
+                console.log(token);
                 if (existUser.role.includes('user')) {
-                    res.redirect('/');
+                    res.redirect('/home');
                 } else {
                     res.redirect('/admin');
                 }
@@ -90,4 +104,11 @@ async function store(req, res, next) {
     }
     debugger;
 }
-module.exports = { index, store };
+//[POST] user logout
+function logout(req, res, next) {
+    // Xóa JWT token bằng cách gửi một token rỗng cho client
+    res.cookie('token', '', { expires: new Date(0) });
+    // Trả về phản hồi JSON
+    res.send(res.json({ success: true, message: 'Đăng xuất thành công' }));
+}
+module.exports = { index, store, logout };

@@ -7,5 +7,7 @@ const { validateRegistration } = require('../middlewares/validation.js');
 router.get('/', userController.index);
 //[POST] user login & register
 router.post('/', validateRegistration, userController.store);
+//[POST] user logout
+router.post('/logout', userController.logout);
 
 module.exports = router;
