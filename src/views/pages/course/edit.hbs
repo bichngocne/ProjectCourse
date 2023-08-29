@@ -1,0 +1,48 @@
+<div class="w-layout">
+    <div class="form-course py-5">
+        <h3 class="text-center">Sửa khoá học</h3>
+        <form id="editcourse">
+            <div class="mb-3">
+                <label for="name" class="form-label">Tên khoá học</label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Nhập tên khoá học ..."
+                    value="{{course.name}}">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Mô tả</label>
+                <textarea id="description" name="description" class="w-full form-control" rows="5"
+                    placeholder="Nhập mô tả khoá học này ...">{{course.description}}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="enrollment_limit" class="form-label">Số lượng học viên</label>
+                <input type="number" class="form-control" name="enrollment_limit" id="enrollment_limit"
+                    placeholder="Nhập Số lượng học viên tối đa có thể tham gia ..." value="{{course.enrollment_limit}}">
+            </div>
+            <div class="mb-3">
+                <label for="level" class="form-label">Mức độ</label> <br>
+                <input type="radio" id="beginner" name="level" value="beginner" {{#ifEquals course.level 'beginner'
+                    }}checked{{/ifEquals}}>
+                <label for="beginner">Cơ bản</label>
+
+                <input type="radio" id="intermediate" name="level" value="intermediate" {{#ifEquals
+                    course.level 'intermediate' }}checked{{/ifEquals}}>
+                <label for="intermediate">Trung cấp</label>
+
+                <input type="radio" id="advanced" name="level" value="advanced" {{#ifEquals course.level 'advanced'
+                    }}checked{{/ifEquals}}>
+                <label for="advanced">Nâng cao</label>
+            </div>
+            <div class="mb-3">
+                <label for="images" class="form-label">Hình ảnh</label>
+                <input type="file" class="form-control" name="images" id="images" multiple data-value-img="{{course.images}}">
+            </div>
+            {{#each course.images}}
+            <img src="/static/uploads/{{this}}" alt="" srcset="" height="100">
+            {{/each}}
+            <div class="mb-3">
+                <label for="price" class="form-label">Trị giá</label>
+                <input type="number" class="form-control" name="price" id="price" placeholder="Giá ....." value="{{course.price}}">
+            </div>
+            <button type="submit" class="btn btn-danger btn-edit-course" data-id="{{course._id}}" >Sửa khoá học</button>
+        </form>
+    </div>
+</div>
