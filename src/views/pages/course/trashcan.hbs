@@ -1,0 +1,63 @@
+<div class="manage-course py-5 d-flex">
+   {{> sidenavadmin}}
+  <div class="w-layout">
+    <h3 class="text-center pb-3">Danh sách khoá học</h3>
+    {{#if courses}}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Tên khoá học</th>
+          <th scope="col">Level</th>
+          <th scope="col">Số học viên</th>
+          <th scope="col">Trị giá</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each courses}}
+        <tr>
+          <th scope="row">{{print @key}}</th>
+          <td>{{this.name}}</td>
+          {{#each this.level}}
+          <td>{{this}}</td>
+          {{/each}}
+          <td>{{number this.enrollment_limit }}</td>
+          <td>{{number this.price}} VNĐ</td>
+          <td>
+            <a href="/english-course-manager/managementcourse/course/{{this._id}}/edit"
+              class="btn-edit border-0">Edit</a>
+            <button type="button" class="btn-del border-0 " data-bs-toggle="modal" data-id="{{this._id}}"
+              data-bs-target="#deleteCourseModal">Xoá</button>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+    <div class="text-center"> Không có dữ liệu <a href="/english-course-manager/managementcourse/course" id="blog"
+        style="background-color: unset !important;">Đăng khoá học</a></div>
+    {{/if}}
+  </div>
+</div>
+
+{{!-- confirm delete --}}
+<!-- Modal -->
+<div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thông Báo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xoá khoá học này không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-del-modal">Xoá</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+      </div>
+    </div>
+  </div>
+</div>

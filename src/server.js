@@ -5,20 +5,72 @@ dotenv.config();
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid'); 
+const multer = require('multer');
 //import connection db
 const connect = require('./database/connect');
 connect();
+var methodOverride = require('method-override')
 
 //import
 const cookieParser = require('cookie-parser');
 const bodyparser = require('body-parser');
-const { user, admin } = require('./routes/index.js');
+const { user, admin, course } = require('./routes/index.js');
 const { engine } = require('express-handlebars');
-const checkToken = require('./middlewares/authentication.js');
+const session = require('express-session');
+const Handlebars = require('handlebars');
+const {checkToken} = require('./middlewares/authentication.js');
+
 // GET port
 const port = process.env.PORT || 3000;
 app.use(cookieParser()); // Sử dụng cookie-parser middleware
+app.use(session({
+    resave: true,
+    saveUninitialized: false,
+    secret: process.env.SECRET_SESSION,
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // 24 giờ
+    },
+}));
+
+// override with POST having ?_method=DELETE
+app.use(methodOverride('_method'))
+
+//views engine
+app.engine('.hbs', engine({ extname: '.hbs'}));
+app.set('view engine', '.hbs');
+app.set('views', 'src/views');
+
+app.use(function (req, res, next) {
+    res.locals.session = req.session;
+    next();
+});
+
+// Định nghĩa helper contains
+Handlebars.registerHelper('contains', function (arr, value, options) {
+    if (arr.includes(value)) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+});
+// Định nghĩa helper print
+Handlebars.registerHelper('print', function (value) {
+    return ++value
+  });
+// Định nghĩa helper number
+Handlebars.registerHelper('number',function(value){
+    const numberValue = Number(value);
+    if (isNaN(numberValue)) {
+        return value; // Trả về giá trị ban đầu nếu không phải là số
+    } else {
+        return numberValue.toLocaleString('en-US'); // Chuyển số thành chuỗi có dấu phẩy
+    }
+})
+// Đĩnh nghĩa helper ifEquals
+Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
 
 // SET log
 async function setLog(app) {
@@ -50,45 +102,25 @@ async function setLog(app) {
     });
 }
 setLog(app);
-
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
+
 
 // static file
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-//views engine
-app.engine('.hbs', engine({ extname: '.hbs' }));
-app.set('view engine', '.hbs');
-app.set('views', 'src/views');
-// app.use(checkToken)
-app.use('/user' ,user);
+//route
 //[GET] home
-app.get('/home', (req, res) => {
+app.get('/', (req, res) => {
     res.render('pages/home', { title: 'Trang Chủ' });
 });
-app.use(function(req, res, next) {
-    if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-        jsonwebtoken.verify(req.headers.authorization.split(' ')[1], process.env.TOKEN_KEY, function(err, decode) {
-            if (err) {
-                // Token không hợp lệ hoặc đã hết hạn, chưa đăng nhập
-                req.user = undefined;
-            } else {
-                req.user = decode;
-            }
-            next();
-        });
-    } else {
-        // Không có token trong yêu cầu, chưa đăng nhập
-        req.user = undefined;
-        next();
-    }
-});
-
-//route
+//[GET] user
+app.use('/english-course', user);
 //[GET] admin
-app.use('/admin',admin);
-//[USE] route user
+app.use('/english-course-manager', checkToken,admin);
+//[GET] course
+app.use('/english-course-manager/managementcourse',checkToken,course);
+
 
 
 app.listen(port, async () => {
