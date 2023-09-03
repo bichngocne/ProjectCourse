@@ -372,31 +372,44 @@ h6 span {
 
 .w-layout {
   width: 90vw !important;
-  margin:0 auto;
+  margin: 0 auto;
 }
-.w-full{
+
+.w-full {
   width: 100%;
 }
+
 /* manament course */
-.manage-course{
+.manage-course {
   position: relative;
   height: auto;
 }
+
 /* Style the links inside the sidenav */
 #mySidenav a {
-  position: absolute; /* Position them relative to the browser window */
-  left: -150px; /* Position them outside of the screen */
-  transition: 0.3s; /* Add transition on hover */
-  padding: 15px; /* 15px padding */
-  width: 200px; /* Set a specific width */
-  text-decoration: none; /* Remove underline */
-  font-size: 20px; /* Increase font size */
-  color: white; /* White text color */
-  border-radius: 0 5px 5px 0; /* Rounded corners on the top right and bottom right side */
+  position: absolute;
+  /* Position them relative to the browser window */
+  left: -150px;
+  /* Position them outside of the screen */
+  transition: 0.3s;
+  /* Add transition on hover */
+  padding: 15px;
+  /* 15px padding */
+  width: 200px;
+  /* Set a specific width */
+  text-decoration: none;
+  /* Remove underline */
+  font-size: 20px;
+  /* Increase font size */
+  color: white;
+  /* White text color */
+  border-radius: 0 5px 5px 0;
+  /* Rounded corners on the top right and bottom right side */
 }
 
 #mySidenav a:hover {
-  left: 0; /* On mouse-over, make the elements appear as they should */
+  left: 0;
+  /* On mouse-over, make the elements appear as they should */
 }
 
 /* The about link: 20px from the top with a green background */
@@ -407,30 +420,112 @@ h6 span {
 
 #blog {
   top: 80px;
-  background-color: #2196F3; /* Blue */
+  z-index: 999999999;
+  background-color: #2196F3;
+  /* Blue */
 }
 
 #projects {
   top: 140px;
-  background-color: #f44336; /* Red */
+  background-color: #f44336;
+  /* Red */
 }
 
 #contact {
   top: 200px;
-  background-color: #555 /* Light Black */
+  background-color: #555
+    /* Light Black */
 }
+
 /* management course */
-.btn-edit, .btn-del{
+.btn-edit,
+.btn-del {
   padding: 8px 20px;
   border-radius: 4px;
   color: #FFFF;
 }
-.btn-edit{
+
+.btn-edit {
   background-color: #04AA6D;
 }
-.btn-del{
+
+.btn-del {
   background-color: #e36161;
 }
-a{
+
+a {
   text-decoration: none !important;
 }
+
+/* styling search bar */
+.search input[type=text] {
+  width: 250px;
+  height: auto;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.search button {
+  background-color: #0074D9;
+  color: #ffeba7;
+  float: right;
+  padding: 5px 10px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+body {
+  background: #f2f2f2;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.searchTerm {
+  width: 100%;
+  border: 3px solid #00B4CC;
+  border-right: none;
+  padding: 5px;
+  height: auto;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+}
+
+.searchTerm:focus {
+  color: #00B4CC;
+}
+
+.searchButton {
+  width: 40px;
+  height: auto;
+  border: 1px solid #00B4CC;
+  background: #00B4CC;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* course detail */
+.banner-page {
+  padding: 20px 0;
+  height: 350px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  align-items: center;
+}
+
+.description {
+  max-width: 50%;
+}
+
+/* klass */
