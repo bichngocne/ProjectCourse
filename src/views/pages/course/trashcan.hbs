@@ -26,10 +26,9 @@
           <td>{{number this.enrollment_limit }}</td>
           <td>{{number this.price}} VNĐ</td>
           <td>
-            <a href="/english-course-manager/managementcourse/course/{{this._id}}/edit"
-              class="btn-edit border-0">Edit</a>
-            <button type="button" class="btn-del border-0 " data-bs-toggle="modal" data-id="{{this._id}}"
-              data-bs-target="#deleteCourseModal">Xoá</button>
+            <button class="btn-edit border-0 btn-edit-trash" data-id="{{this._id}}">Khôi phục</a>
+            <button type="button" class="btn-del border-0 mx-3" data-bs-toggle="modal" data-id="{{this._id}}"
+              data-bs-target="#deleteCourseModal">Xoá vĩnh viễn</button>
           </td>
         </tr>
         {{/each}}
@@ -52,10 +51,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Bạn có muốn xoá khoá học này không?
+        Bạn có muốn xoá khoá học này vĩnh viễn không?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger btn-del-modal">Xoá</button>
+        <button type="button" class="btn btn-danger btn-del-modal-fo">Xoá</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
       </div>
     </div>

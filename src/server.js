@@ -15,7 +15,7 @@ var methodOverride = require('method-override')
 //import
 const cookieParser = require('cookie-parser');
 const bodyparser = require('body-parser');
-const { user, admin, course } = require('./routes/index.js');
+const { user, admin, course, klass } = require('./routes/index.js');
 const { engine } = require('express-handlebars');
 const session = require('express-session');
 const Handlebars = require('handlebars');
@@ -71,6 +71,12 @@ Handlebars.registerHelper('number',function(value){
 Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
+//Định nghĩa helper get index
+Handlebars.registerHelper('index', function(array, index) {
+    if (array && index !== undefined) {
+      return array[index];
+    }
+  });
 
 // SET log
 async function setLog(app) {
@@ -120,7 +126,8 @@ app.use('/english-course', user);
 app.use('/english-course-manager', checkToken,admin);
 //[GET] course
 app.use('/english-course-manager/managementcourse',checkToken,course);
-
+//[GET] class
+app.use('/english-course-manager/managementcourse',checkToken,klass);
 
 
 app.listen(port, async () => {

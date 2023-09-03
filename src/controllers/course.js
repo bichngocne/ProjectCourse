@@ -1,11 +1,20 @@
 const { Course } = require('../models/index.js')
-const {mutipleMongooseToObject,mongooseToObject} = require('../utils/mongoose.js')
+const { mutipleMongooseToObject, mongooseToObject } = require('../utils/mongoose.js')
 //[INDEX] management course screen
-const index = (req, res, next) => {
-    Course.find({deleted: false})
-    .then((courses) => {
-        res.render('pages/managementcourse', { title: 'Quản lý khoá học',courses: mutipleMongooseToObject(courses) });
-    }).catch(next)
+const index = async (req, res, next) => {
+    await Course.find({})
+        .then((courses) => {
+            res.render('pages/managementcourse', { title: 'Quản lý khoá học', courses: mutipleMongooseToObject(courses) });
+        }).catch(next)
+}
+//[GET] courses search
+const search = async (req, res, next) => {
+    var name = req.body.search;
+    console.log(name);
+    await Course.find({ name: { $regex: name, $options: 'i' } })
+        .then((courses) => {
+            res.json({ courses: mutipleMongooseToObject(courses) });
+        }).catch(next)
 }
 //[SHOW] create course screen
 const show = (req, res) => {
@@ -45,10 +54,10 @@ async function store(req, res, next) {
 //[EDIT] update course
 async function edit(req, res, next) {
     Course.findById(req.params.id)
-    .then((course)=>{
-        res.render('pages/course/edit', { title: 'Sửa khoá học', course: mongooseToObject(course) });
-    })
-    .catch(next)
+        .then((course) => {
+            res.render('pages/course/edit', { title: 'Sửa khoá học', course: mongooseToObject(course) });
+        })
+        .catch(next)
 }
 //[PUT] Update course 
 async function update(req, res, next) {
@@ -94,34 +103,73 @@ async function update(req, res, next) {
     }
 }
 //[DELETE] soft course 
-async function forceDestroy(req,res,next){
+async function forceDestroy(req, res, next) {
     Course.findByIdAndUpdate(req.params.id, { deleted: true })
-    .then(()=>{
-        return res.json({
-            success: true,
-            message: 'Xoá khoá học thành công!!',
-        });
-    })
-    .catch(next)
+        .then(() => {
+            return res.json({
+                success: true,
+                message: 'Xoá khoá học thành công!!',
+            });
+        })
+        .catch(next)
 }
 // //[DELETE] course
-async function destroy(req,res,next){
-    Course.deleteOne({_id: req.params.id})
-    .then(()=>{
-        return res.json({
-            success: true,
-            message: 'Xoá khoá học thành công!!',
-        });
-    })
-    .catch(next)
+async function destroy(req, res, next) {
+    Course.deleteOne({ _id: req.params.id })
+        .then(() => {
+            return res.json({
+                success: true,
+                message: 'Xoá khoá học thành công!!',
+            });
+        })
+        .catch(next)
 
 }
 //GET trash can course
-const showtrash = (req, res, next) => {
-    Course.find({deleted:true})
-    .then((courses) => {
-        console.log(courses);
-        res.render('pages/course/trashcan', { title: 'Thùng rác',courses: mutipleMongooseToObject(courses) });
-    }).catch(next)
+const showtrash = async (req, res, next) => {
+    await Course.findDeleted({})
+        .then((courses) => {
+            res.render('pages/course/trashcan', { title: 'Thùng rác', courses: mutipleMongooseToObject(courses) });
+        }).catch(next)
 }
-module.exports = { index, show, store, edit, update,destroy,forceDestroy,showtrash }
+
+//Khôi phục course
+async function restore(req, res, next) {
+    debugger
+    const course = await Course.findByIdAndUpdate(req.params.id, { deleted: false }, { new: true })
+        .then((updatedCourse) => {
+            debugger
+            return res.json({
+                success: true,
+                message: 'Khôi phục khoá học thành công!!',
+                course: updatedCourse
+            });
+        })
+        .catch((err) => {
+            debugger
+            return res.json({
+                success: false,
+                message: 'Khôi phục khoá học không thành công!!' + err,
+            });
+        });
+
+}
+
+// Arrange by ..
+const arrCourse = async (req, res, next) => {
+    const nameArr = req.params.name;
+    console.log(nameArr);
+    await Course.find({}).sort(nameArr).exec()
+        .then((courses) => {
+            res.json({ courses: mutipleMongooseToObject(courses) });
+        }).catch(next)
+}
+
+async function showDetail(req, res, next) {
+    Course.findOne({ slug: req.params.slug })
+        .then((course) => {
+            res.render('pages/course/show', { title: 'Chi tiết khoá học', course: mongooseToObject(course) });
+        })
+        .catch(next)
+}
+module.exports = { index, search, show, store, edit, update, destroy, forceDestroy, showtrash, restore, arrCourse, showDetail }

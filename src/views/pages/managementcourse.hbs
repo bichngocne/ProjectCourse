@@ -1,7 +1,30 @@
-<div class="manage-course py-5 d-flex">
-{{> sidenavadmin}}
-  <div class="w-layout">
+<div class="manage-course py-5">
+
+  {{> sidenavadmin}}
+  <div class="title">
     <h3 class="text-center pb-3">Danh sách khoá học</h3>
+  </div>
+  <div class="w-layout">
+    <div class="d-flex justify-content-between">
+      <div class="dropdown pb-3">
+        <button class="border-0 bg-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Sắp xếp theo
+        </button>
+        <ul class="dropdown-menu">
+          <li><button class="dropdown-item arrname">Tên</button></li>
+          <li><button class="dropdown-item arrprice">Trị giá</button></li>
+          <li><button class="dropdown-item arrcreatedat">Ngày tạo</button></li>
+        </ul>
+      </div>
+      <div class="wrap">
+        <div class="search">
+          <input type="text" class="searchTerm" placeholder="Tìm kiếm tên khoá học...">
+          <button type="submit" class="searchButton">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
     {{#if courses}}
     <table class="table">
       <thead>
@@ -15,11 +38,11 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody id="listcourse">
         {{#each courses}}
         <tr>
           <th scope="row">{{print @key}}</th>
-          <td>{{this.name}}</td>
+          <td><a href="/english-course-manager/managementcourse/course/{{this.slug}}">{{this.name}}</a></td>
           {{#each this.level}}
           <td>{{this}}</td>
           {{/each}}
@@ -61,3 +84,41 @@
     </div>
   </div>
 </div>
+<script id="courses-template" type="text/x-handlebars-template">
+    {{#if listcourse}}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Tên khoá học</th>
+          <th scope="col">Level</th>
+          <th scope="col">Số học viên</th>
+          <th scope="col">Trị giá</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="listcourse">
+        {{#each listcourse}}
+        <tr>
+          <th scope="row">{{print @key}}</th>
+          <td>{{this.name}}</td>
+          {{#each this.level}}
+          <td>{{this}}</td>
+          {{/each}}
+          <td>{{number this.enrollment_limit }}</td>
+          <td>{{number this.price}} VNĐ</td>
+          <td>
+            <a href="/english-course-manager/managementcourse/course/{{this._id}}/edit"
+              class="btn-edit border-0">Edit</a>
+            <button type="button" class="btn-del border-0 " data-bs-toggle="modal" data-id="{{this._id}}"
+              data-bs-target="#deleteCourseModal">Xoá</button>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+    <div class="text-center"> Không có dữ liệu <a href="/english-course-manager/managementcourse/course" id="blog"
+        style="background-color: unset !important;">Đăng khoá học</a></div>
+    {{/if}}
+</script>

@@ -115,3 +115,26 @@ async function submitDel(courseId) {
 
     });
 }
+async function submitDelforever(courseId) {
+    $.ajax({
+        url: `/english-course-manager/managementcourse/course-i/${courseId}?_method=DELETE`,
+        type: "POST",
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log(response);
+            if (response.success) {
+                notification(response.message);
+                setTimeout(() => {
+                   location.reload()
+                }, 1000); 
+            } else {
+                notification(response.message);
+            }
+        },
+        error: function (errorResponse) {
+            notification(errorResponse.message);
+        }
+
+    });
+}
