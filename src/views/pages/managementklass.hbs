@@ -1,0 +1,118 @@
+<div class="manage-course py-5">
+<div class="w-layout"><a href="/english-course-manager/class/create" id="blog"
+        style="background-color: unset !important;">Thêm lớp học</a></div>
+  <div class="title">
+    <h3 class="text-center pb-3">Danh sách lớp học</h3>
+  </div>
+  <div class="w-layout">
+    <div class="d-flex justify-content-between">
+      <div class="dropdown pb-3">
+        <button class="border-0 bg-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Sắp xếp theo
+        </button>
+        <ul class="dropdown-menu">
+          <li><button class="dropdown-item arrname-class">Tên</button></li>
+          <li><button class="dropdown-item arrnumbers-class">Số buổi học</button></li>
+          <li><button class="dropdown-item arrcreatedat-class">Ngày tạo</button></li>
+        </ul>
+      </div>
+      <div class="wrap">
+        <div class="search">
+          <input type="text" class="searchTerm" placeholder="Tìm kiếm tên lớp học...">
+          <button type="submit" class="searchButtonClass">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    {{#if classes}}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Tên Lớp học</th>
+          <th scope="col">Số buổi học</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+
+      <tbody id="listcourse">
+        {{#each classes}}
+        <tr>
+          <th scope="row">{{print @key}}</th>
+          <td><a href="/english-course-manager/class/{{this.slug}}">{{this.name}}</a></td>
+          <td>{{this.numberofsessions}}</td>
+          <td>
+            <a href="/english-course-manager/class/{{this._id}}/edit"
+              class="btn-edit border-0">Edit</a>
+            <button type="button" class="btn-del border-0 " data-bs-toggle="modal" data-id="{{this._id}}"
+              data-bs-target="#deleteCourseModal">Xoá</button>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+    <div class="text-center"> Không có dữ liệu <a href="/english-course-manager/class/create" id="blog"
+        style="background-color: unset !important;">Thêm lớp học</a></div>
+    {{/if}}
+  </div>
+</div>
+
+{{!-- confirm delete --}}
+<!-- Modal -->
+<div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thông Báo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xoá lớp học này không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-del-klass-modal">Xoá</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{!-- <script id="courses-template" type="text/x-handlebars-template">
+    {{#if listcourse}}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Tên khoá học</th>
+          <th scope="col">Level</th>
+          <th scope="col">Số học viên</th>
+          <th scope="col">Trị giá</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="listcourse">
+        {{#each listcourse}}
+        <tr>
+          <th scope="row">{{print @key}}</th>
+          <td>{{this.name}}</td>
+          {{#each this.level}}
+          <td>{{this}}</td>
+          {{/each}}
+          <td>{{number this.enrollment_limit }}</td>
+          <td>{{number this.price}} VNĐ</td>
+          <td>
+            <a href="/english-course-manager/managementcourse/course/{{this._id}}/edit"
+              class="btn-edit border-0">Edit</a>
+            <button type="button" class="btn-del border-0 " data-bs-toggle="modal" data-id="{{this._id}}"
+              data-bs-target="#deleteCourseModal">Xoá</button>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+    <div class="text-center"> Không có dữ liệu <a href="/english-course-manager/managementcourse/course" id="blog"
+        style="background-color: unset !important;">Đăng khoá học</a></div>
+    {{/if}}
+</script> --}}

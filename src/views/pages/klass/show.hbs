@@ -1,0 +1,32 @@
+{{#if klass}}
+<h3 class="text-center py-5">{{klass.name}}</h3>
+<div class="w-layout">
+    <div class="content-1 d-grid xl:grid-col-4 md:grid-col-2 sm:grid-col-1 gap-3 w-layout m-auto pb-5">
+        <div class="item-content d-flex  align-items-center">
+            <div class="wrapper-content d-block">
+                <div class="description-text">{{element klass.description 0}}</div>
+            </div>
+        </div>
+        <div class="item-content d-flex  align-items-center">
+            <div class="wrapper-content d-block">
+                <div class="description-text">{{element klass.description 1}}</div>
+            </div>
+        </div>
+        <div class="item-content d-flex  align-items-center">
+            <div class="wrapper-content d-block">
+                <div class="description-text">{{element klass.description 2}}</div>
+            </div>
+        </div>
+        <div class="item-content d-flex align-items-center">
+            <div class="wrapper-content d-block">
+                <div class="description-text">{{element klass.description 3}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="add_lession_of_class pb-5">
+        <a href="">Thêm bài học</a>
+    </div>
+</div>
+{{else}}
+{{> error}}
+{{/if}}

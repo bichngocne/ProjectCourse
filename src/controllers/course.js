@@ -46,7 +46,7 @@ async function store(req, res, next) {
         });
     }).catch(error => {
         res.status(400).json({
-            success: true,
+            success: false,
             message: 'Đăng khoá học không thành công',
         });
     })

@@ -24,23 +24,27 @@
           <a class="nav-link" href="/english-course/course">Khoá học</a>
         </li>
         {{#if session.user }}
+        <li class="nav-item">
+          <a class="nav-link" href="/english-course-manager/class">Quản lý lớp học</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/english-course-manager/managementcourse">Quản lý khoá học </a>
+        </li>
         <li class="nav-item dropdown">
           <div class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{session.user.email}}
           </div>
           <ul class="dropdown-menu" style=" top: 50px;left: 10px;">
             <li><a class="dropdown-item" href="#">Hồ sơ của bạn</a></li>
-            <li><a class="dropdown-item" href="/english-course-manager/class">Quản lí lớp học</a></li>
-            <li><a class="dropdown-item" href="/english-course-manager/managementcourse">Quản lí khoá học</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">Đăng Xuất</a></li>
+            <li class="dropdown-item">
+              <button type="submit" class="border-0 text-dark nav-link" id="liveToastBtn">Đăng Xuất</button>
+            </li>
           </ul>
         </li>
-        <li class="nav-item">
-          <button type="submit" class="border-0 bg-dark text-gray nav-link" id="liveToastBtn">Đăng Xuất</button>
-        </li>
+
         {{else }}
         <a class="nav-link" href="/english-course/login-signup">Đăng Nhập/ Đăng ký</a>
         {{/if}}

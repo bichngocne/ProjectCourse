@@ -5,7 +5,7 @@ dotenv.config();
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid'); 
+const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 //import connection db
 const connect = require('./database/connect');
@@ -19,7 +19,7 @@ const { user, admin, course, klass } = require('./routes/index.js');
 const { engine } = require('express-handlebars');
 const session = require('express-session');
 const Handlebars = require('handlebars');
-const {checkToken} = require('./middlewares/authentication.js');
+const { checkToken } = require('./middlewares/authentication.js');
 
 // GET port
 const port = process.env.PORT || 3000;
@@ -37,7 +37,7 @@ app.use(session({
 app.use(methodOverride('_method'))
 
 //views engine
-app.engine('.hbs', engine({ extname: '.hbs'}));
+app.engine('.hbs', engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', 'src/views');
 
@@ -57,9 +57,9 @@ Handlebars.registerHelper('contains', function (arr, value, options) {
 // Định nghĩa helper print
 Handlebars.registerHelper('print', function (value) {
     return ++value
-  });
+});
 // Định nghĩa helper number
-Handlebars.registerHelper('number',function(value){
+Handlebars.registerHelper('number', function (value) {
     const numberValue = Number(value);
     if (isNaN(numberValue)) {
         return value; // Trả về giá trị ban đầu nếu không phải là số
@@ -68,15 +68,20 @@ Handlebars.registerHelper('number',function(value){
     }
 })
 // Đĩnh nghĩa helper ifEquals
-Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 //Định nghĩa helper get index
-Handlebars.registerHelper('index', function(array, index) {
+Handlebars.registerHelper('index', function (array, index) {
     if (array && index !== undefined) {
-      return array[index];
+        return array[index];
     }
-  });
+});
+//Định nghĩa helper get index
+Handlebars.registerHelper('element', function (array, index) {
+    const words = array.split('.');
+    return words[index];
+});
 
 // SET log
 async function setLog(app) {
@@ -123,12 +128,16 @@ app.get('/', (req, res) => {
 //[GET] user
 app.use('/english-course', user);
 //[GET] admin
-app.use('/english-course-manager', checkToken,admin);
+app.use('/english-course-manager', checkToken, admin);
 //[GET] course
-app.use('/english-course-manager/managementcourse',checkToken,course);
+app.use('/english-course-manager/managementcourse', checkToken, course);
 //[GET] class
-app.use('/english-course-manager/managementcourse',checkToken,klass);
+app.use('/english-course-manager/class', checkToken, klass);
 
+// Trình xử lý router cuối cùng để xử lý trường hợp "Not Found"
+app.use((req, res) => {
+    res.status(404).render('partials/error');
+});
 
 app.listen(port, async () => {
     console.log(`Server running at http://localhost:${port}`);
