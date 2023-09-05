@@ -1,0 +1,35 @@
+<div class="w-layout">
+    <div class="form-course py-5">
+        <h3 class="text-center">Sửa lớp học</h3>
+        <form id="updateclass" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Tên lớp học</label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Nhập tên khoá học ..." value="{{klass.name}}">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Mô tả</label>
+                <textarea id="description" name="description" class="w-full form-control" rows="5"
+                    placeholder="Nhập mô tả khoá học này ...">{{klass.description}}</textarea>
+            </div>
+             <div class="mb-3">
+                <label for="level" class="form-label">Mức độ</label> <br>
+                <input type="radio" id="beginner" name="level" value="beginner" {{#ifEquals klass.level 'beginner'
+                    }}checked{{/ifEquals}}>
+                <label for="beginner">Cơ bản</label>
+
+                <input type="radio" id="intermediate" name="level" value="intermediate" {{#ifEquals
+                    klass.level 'intermediate' }}checked{{/ifEquals}}>
+                <label for="intermediate">Trung cấp</label>
+
+                <input type="radio" id="advanced" name="level" value="advanced" {{#ifEquals klass.level 'advanced'
+                    }}checked{{/ifEquals}}>
+                <label for="advanced">Nâng cao</label>
+            </div>
+            <div class="mb-3">
+                <label for="numberofsessions" class="form-label">Số buổi</label>
+                <input type="number" class="form-control" name="numberofsessions" id="numberofsessions" placeholder="Số buổi ....." value="{{klass.numberofsessions}}">
+            </div>
+            <button type="submit" class="btn btn-danger btn-edit-course" data-id="{{klass._id}}">Sửa lớp học</button>
+        </form>
+    </div>
+</div>

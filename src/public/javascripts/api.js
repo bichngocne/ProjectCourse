@@ -1,7 +1,9 @@
 $(document).ready(function () {
     const storecourse = $('#storecourse');
+    const storeclass = $('#storeclass');
 
     storecourse.submit(submitForm)
+    storeclass.submit(submitstoreclass)
     async function submitForm(e) {
         e.preventDefault();
         const formData = new FormData();
@@ -43,6 +45,72 @@ $(document).ready(function () {
             console.error("Error occurred", error);
         }
     }
+    //submit create class
+
+    async function submitstoreclass(e) {
+        e.preventDefault();
+        var data = {
+            name: $("#name").val(),
+            description: $("#description").val(),
+            level: $("input[name='level']:checked").val(),
+            numberofsessions: $("#numberofsessions").val()
+        }
+        console.log(data);
+        $.ajax({
+            url: `/english-course-manager/class/create`,
+            type: "POST",
+            data: data,
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    notification(response.message);
+                    setTimeout(() => {
+                        window.location.href = response.uri;
+                    }, 1000);
+                } else {
+                    notification(response.message);
+                }
+            },
+            error: function (errorResponse) {
+                notification(errorResponse.message);
+            }
+
+        });
+    }
+    //submit update class
+    $("#updateclass").submit(submitupdateclass);
+    async function submitupdateclass(e) {
+        e.preventDefault();
+        const klassId = $('.btn-edit-course').data("id");
+        var data = {
+            name: $("#name").val(),
+            description: $("#description").val(),
+            level: $("input[name='level']:checked").val(),
+            numberofsessions: $("#numberofsessions").val()
+        }
+        console.log(data);
+        $.ajax({
+            url: `/english-course-manager/class/${klassId}?_method=PUT`,
+            type: "POST",
+            data: data,
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    notification(response.message);
+                    setTimeout(() => {
+                        window.location.href = response.uri;
+                    }, 1000);
+                } else {
+                    notification(response.message);
+                }
+            },
+            error: function (errorResponse) {
+                notification(errorResponse.message);
+            }
+
+        });
+    }
+    //submit update course
     $("#editcourse").submit(function (e) {
         e.preventDefault();
         const formData = new FormData();
@@ -103,8 +171,31 @@ async function submitDel(courseId) {
             if (response.success) {
                 notification(response.message);
                 setTimeout(() => {
-                   location.reload()
-                }, 1000); 
+                    location.reload()
+                }, 1000);
+            } else {
+                notification(response.message);
+            }
+        },
+        error: function (errorResponse) {
+            notification(errorResponse.message);
+        }
+
+    });
+}
+async function submitDelKlass(classId) {
+    $.ajax({
+        url: `/english-course-manager/class/${classId}?_method=DELETE`,
+        type: "POST",
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log(response);
+            if (response.success) {
+                notification(response.message);
+                setTimeout(() => {
+                    location.reload()
+                }, 1000);
             } else {
                 notification(response.message);
             }
@@ -126,8 +217,8 @@ async function submitDelforever(courseId) {
             if (response.success) {
                 notification(response.message);
                 setTimeout(() => {
-                   location.reload()
-                }, 1000); 
+                    location.reload()
+                }, 1000);
             } else {
                 notification(response.message);
             }

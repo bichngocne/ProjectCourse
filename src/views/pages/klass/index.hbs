@@ -1,20 +1,15 @@
 <div class="w-layout">
     <div class="form-course py-5">
-        <h3 class="text-center">Đăng khoá học</h3>
-        <form id="storecourse" >
+        <h3 class="text-center">Thêm lớp học</h3>
+        <form id="storeclass" method="post">
             <div class="mb-3">
-                <label for="name" class="form-label">Tên khoá học</label>
+                <label for="name" class="form-label">Tên lớp học</label>
                 <input type="text" class="form-control" name="name" id="name" placeholder="Nhập tên khoá học ...">
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Mô tả</label>
                 <textarea id="description" name="description" class="w-full form-control" rows="5"
                     placeholder="Nhập mô tả khoá học này ..."></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="enrollment_limit" class="form-label">Số lượng học viên</label>
-                <input type="number" class="form-control" name="enrollment_limit" id="enrollment_limit"
-                    placeholder="Nhập Số lượng học viên tối đa có thể tham gia ...">
             </div>
             <div class="mb-3">
                 <label for="level" class="form-label">Mức độ</label> <br>
@@ -28,14 +23,10 @@
                 <label for="advanced">Nâng cao</label>
             </div> 
             <div class="mb-3">
-                <label for="images" class="form-label">Hình ảnh</label>
-                <input type="file" class="form-control" name="images" id="images" multiple>
+                <label for="numberofsessions" class="form-label">Số buổi</label>
+                <input type="number" class="form-control" name="numberofsessions" id="numberofsessions" placeholder="Số buổi .....">
             </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">Trị giá</label>
-                <input type="number" class="form-control" name="price" id="price" placeholder="Giá .....">
-            </div>
-            <button type="submit" class="btn btn-danger">Đăng khoá học</button>
+            <button type="submit" class="btn btn-danger">Thêm khoá học</button>
         </form>
     </div>
 </div>
