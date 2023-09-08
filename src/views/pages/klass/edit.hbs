@@ -1,3 +1,4 @@
+{{#if klass}}
 <div class="w-layout">
     <div class="form-course py-5">
         <h3 class="text-center">Sửa lớp học</h3>
@@ -33,3 +34,6 @@
         </form>
     </div>
 </div>
+{{else}}
+{{> error}}
+{{/if}}

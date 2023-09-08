@@ -15,7 +15,7 @@ var methodOverride = require('method-override')
 //import
 const cookieParser = require('cookie-parser');
 const bodyparser = require('body-parser');
-const { user, admin, course, klass } = require('./routes/index.js');
+const { user, admin, course, klass, lession } = require('./routes/index.js');
 const { engine } = require('express-handlebars');
 const session = require('express-session');
 const Handlebars = require('handlebars');
@@ -133,6 +133,9 @@ app.use('/english-course-manager', checkToken, admin);
 app.use('/english-course-manager/managementcourse', checkToken, course);
 //[GET] class
 app.use('/english-course-manager/class', checkToken, klass);
+//[GET] lession
+app.use('/english-course-manager/lession', checkToken, lession);
+
 
 // Trình xử lý router cuối cùng để xử lý trường hợp "Not Found"
 app.use((req, res) => {

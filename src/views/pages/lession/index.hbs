@@ -1,0 +1,32 @@
+<div class="w-layout">
+    <div class="form-course py-5">
+        <h3 class="text-center">Thêm bài học</h3>
+        <form id="storelession" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Tên bài học</label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Nhập tên bài học ...">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Mô tả</label>
+                <textarea id="description" name="description" class="w-full form-control" rows="5"
+                    placeholder="Nhập mô tả khoá học này ..."></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="audios" class="form-label">Link audios</label>
+                <input type="text" class="form-control" name="audios" id="audios" multiple>
+            </div>
+            <div class="mb-3">
+                <label for="linkVideo" class="form-label">Link videos</label>
+                <input type="text" class="form-control" name="linkVideo" id="linkVideo"
+                    placeholder="Nhập đường link .....">
+            </div>
+            <div class="mb-3">
+                <label for="linkExercise" class="form-label">Link bài tập</label>
+                <input type="text" class="form-control" name="linkExercise" id="linkExercise"
+                    placeholder="Nhập đường link .....">
+            Tham khảo <a href="https://docs.google.com/forms/d/1B0CUztMy96NWrURADL8HoaWv395x6bl3m--jtfX9gCo/edit">Tạo gg form</a> <br>
+            </div>
+            <button type="submit" class="btn btn-danger" id="session-data" data-session="{{session.class.idclass}}">Thêm lớp học</button>
+        </form>
+    </div>
+</div>

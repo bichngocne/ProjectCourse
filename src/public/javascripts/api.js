@@ -77,6 +77,40 @@ $(document).ready(function () {
 
         });
     }
+    //submit create lession
+    $('#storelession').submit(submitstorelession);
+    async function submitstorelession(e) {
+        e.preventDefault();
+        var data = {
+            name: $("#name").val(),
+            description: $("#description").val(),
+            audios: $("#audios").val(),
+            videos: $("#linkVideo").val(),
+            exercises: $("#linkExercise").val(),
+            idClass: $('#session-data').data('session')
+        }
+        console.log(data);
+        $.ajax({
+            url: `/english-course-manager/lession/create`,
+            type: "POST",
+            data: data,
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    notification(response.message);
+                    setTimeout(() => {
+                        window.location = document.referrer;
+                    }, 1000);
+                } else {
+                    notification(response.message);
+                }
+            },
+            error: function (errorResponse) {
+                notification(errorResponse.message);
+            }
+
+        });
+    }
     //submit update class
     $("#updateclass").submit(submitupdateclass);
     async function submitupdateclass(e) {
@@ -159,7 +193,41 @@ $(document).ready(function () {
             }
         });
     });
+    //submit update lession
+    $("#editlession").submit(function (e) {
+        e.preventDefault();
+        var data = {
+            name: $("#name").val(),
+            description: $("#description").val(),
+            audios: $("#audios").val(),
+            videos: $("#linkVideo").val(),
+            exercises: $("#linkExercise").val(),
+            idLession: $('#session-data').data('id')
+        }
+        console.log(data);
+        $.ajax({
+            url: `/english-course-manager/lession/${data.idLession}?_method=PUT`,
+            type: "POST",
+            data: data,
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    notification(response.message);
+                    setTimeout(() => {
+                        window.location = document.referrer;
+                    }, 1000);
+                } else {
+                    notification(response.message);
+                }
+            },
+            error: function (errorResponse) {
+                notification(errorResponse.message);
+            }
+
+        });
+    });
 });
+// function delete course
 async function submitDel(courseId) {
     $.ajax({
         url: `/english-course-manager/managementcourse/course/${courseId}?_method=DELETE`,
@@ -183,6 +251,7 @@ async function submitDel(courseId) {
 
     });
 }
+//function delete class
 async function submitDelKlass(classId) {
     $.ajax({
         url: `/english-course-manager/class/${classId}?_method=DELETE`,
@@ -206,9 +275,35 @@ async function submitDelKlass(classId) {
 
     });
 }
+//function delete course forever
 async function submitDelforever(courseId) {
     $.ajax({
         url: `/english-course-manager/managementcourse/course-i/${courseId}?_method=DELETE`,
+        type: "POST",
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log(response);
+            if (response.success) {
+                notification(response.message);
+                setTimeout(() => {
+                    location.reload()
+                }, 1000);
+            } else {
+                notification(response.message);
+            }
+        },
+        error: function (errorResponse) {
+            notification(errorResponse.message);
+        }
+
+    });
+}
+// function delete lession
+async function submitDelLession(classId) {
+    console.log('hi');
+    $.ajax({
+        url: `/english-course-manager/lession/${classId}?_method=DELETE`,
         type: "POST",
         processData: false,
         contentType: false,

@@ -8,14 +8,12 @@ const courseSchema = new mongoose.Schema(
             type: String,
             isLength: {
                 options: { min: 6, max:30 },
-                errorMessage: 'Password should be at least 6 chars and max 30 chars',
             },
         },
         description: {
             type: String,
             isLength: {
                 options: { min: 6, max:255 },
-                errorMessage: 'Password should be at least 6 chars',
             },
             required:true
         },

@@ -1,0 +1,39 @@
+{{#if lession}}
+<div class="w-layout">
+    <div class="form-course py-5">
+        <h3 class="text-center">Sửa bài học</h3>
+        <form id="editlession" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Tên bài học</label>
+                <input type="text" class="form-control" name="name" id="name" value="{{lession.name}}">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Mô tả</label>
+                <textarea id="description" name="description" class="w-full form-control" rows="5"
+               >{{lession.description}}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="audios" class="form-label">Link audios</label>
+                <input type="text" class="form-control" name="audios" id="audios" multiple  value="{{lession.audios}}">
+            </div>
+            <div class="mb-3">
+                <label for="linkVideo" class="form-label">Link videos</label>
+                <input type="text" class="form-control" name="linkVideo" id="linkVideo"
+                     value="{{lession.videos}}">
+            </div>
+            <div class="mb-3">
+                <label for="linkExercise" class="form-label">Link bài tập</label>
+                <input type="text" class="form-control" name="linkExercise" id="linkExercise"
+                    value="{{lession.exercises}}">
+                Tham khảo <a
+                    href="https://docs.google.com/forms/d/1B0CUztMy96NWrURADL8HoaWv395x6bl3m--jtfX9gCo/edit">Tạo gg
+                    form</a> <br>
+            </div>
+            <button type="submit" class="btn btn-danger" id="session-data" data-id="{{lession._id}}">Sửa
+                lớp học</button>
+        </form>
+    </div>
+</div>
+{{else}}
+{{> error}}
+{{/if}}

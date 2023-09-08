@@ -28,6 +28,12 @@ const KlassSchema = new mongoose.Schema(
             type: [String],
             required: true,
         },
+        lessions: [
+            {
+                type: mongoose.Schema.ObjectId,
+                ref: 'lession',
+            },
+        ],
         slug: {
             type: String,
             slug: 'name',
@@ -45,5 +51,5 @@ KlassSchema.plugin(slug);
 //     overrideMethods: 'all',
 // });
 
-module.exports = mongoose.model('Klass', KlassSchema);
+module.exports = mongoose.model('klass', KlassSchema);
 
