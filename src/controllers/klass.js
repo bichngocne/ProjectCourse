@@ -97,11 +97,23 @@ const arrClass = async (req, res, next) => {
             res.json({ klasses: mutipleMongooseToObject(klasses) });
         }).catch(next)
 }
-async function showdetail(req,res,next){
-    Klass.findOne({ slug: req.params.slug })
-    .then((klass) => {
-        res.render('pages/klass/show', { title: 'Chi tiết lớp học', klass: mongooseToObject(klass) });
-    })
-    .catch(next)
+async function showdetail(req, res, next) {
+    try {
+        //get lession of class
+        // populate
+        Klass.findOne({ slug: req.params.slug }).populate('lessions')
+            .then((klass) => {
+                // save information class to session
+                req.session.class = {
+                    idclass: klass._id,
+                };
+                console.log(klass);
+                // res.status(200).json(klass)
+                res.render('pages/klass/show', { title: 'Chi tiết lớp học', klass: mongooseToObject(klass) });
+            })
+            .catch(next)
+    } catch (error) {
+        next()
+    }
 }
-module.exports = { index, show, store, destroy, edit, update,search, arrClass,showdetail }
+module.exports = { index, show, store, destroy, edit, update, search, arrClass, showdetail }

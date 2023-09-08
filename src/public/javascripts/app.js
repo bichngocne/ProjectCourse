@@ -29,6 +29,7 @@ $(document).ready(function () {
     deleteCourseModal.addEventListener('show.bs.modal', function (event) {
         var btnDel = $('.btn-del-modal');
         var btnDelKlass = $('.btn-del-klass-modal');
+        var btnDelLesssion = $('.btn-del-lession-modal');
         // Button that triggered the modal
         var button = event.relatedTarget
         var Id = button.getAttribute('data-id');
@@ -36,6 +37,7 @@ $(document).ready(function () {
         $('.btn-del-modal-fo').click(() => submitDelforever(Id));
 
         btnDelKlass.click(() => submitDelKlass(Id));
+        btnDelLesssion.click(() => submitDelLession(Id));
 
     })
     //khoi phuc course
@@ -128,9 +130,7 @@ $(document).ready(function () {
                 <tr>
                     <th scope="row">${count++}</th>
                     <td>${element.name}</td>
-                   <td> ${levelHTML}</td>
-                    <td>${Number(element.enrollment_limit)}</td>
-                    <td>${Number(element.price)} VNĐ</td>
+                    <td>${Number(element.numberofsessions)}</td>
                     <td>
                         <a href="/english-course-manager/managementcourse/course/${element._id}/edit"
                           class="btn-edit border-0">Edit</a>
